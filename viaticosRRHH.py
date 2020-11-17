@@ -2,26 +2,29 @@ import os
 import csv
 
 
-
+# Cargar datos, crear archivos o editarlos.
 def cargar_datos(archivo,campos):
     lista_rrhh=[]
     cargar = "si"
 
     if os.path.exists(archivo):
-        while (True):
             actualizar = input ("El archivo existe! \n ¿Desea actualizar los datos existentes ? : ")
 
-            if actualizar == "si":
-                with open(archivo, 'r') as file:
-                    lectura_csv = csv.DictReader(file)
-                    
-                    for linea in lectura_csv:
-                        lista_rrhh.append(linea)
-                break
-            elif actualizar == "no":
-                break
-            else:
-                print("Vuelva a escribir el nombre del archivo : ")
+            while (True):
+                if actualizar == "si":
+                    with open(archivo, 'r') as file:
+                        lectura_csv = csv.DictReader(file)
+                        
+                        for linea in lectura_csv:
+                            lista_rrhh.append(linea)
+                    break
+                elif actualizar == "no":
+                    return
+    else:
+        seguir = input("Desea crear el archivo? si/no: ")
+            
+        if seguir == "no":
+            return
 
     while cargar == "si":
         empleado = {}
@@ -55,6 +58,7 @@ def cargar_datos(archivo,campos):
     except IOError:
         print("ocurrio un error con el archivo! ")
 
+#B_control de gastos
 def gastos(archivo1,archivo2):
 
     num_legajo = input ("Ingresa el legajo que deseas averiguar: ")
@@ -83,11 +87,12 @@ def gastos(archivo1,archivo2):
 
             if (gasto_total > 5000):
                 diferencia = gasto_total - 5000
-                print(f"Se paso de fatctura con {diferencia} pesos")
+                print(f"Se paso del presupuesto de viaticos con {diferencia} pesos")
 
             else:
-                print("Legajo {} : {}, gasto $ {}".format(fila["Legajo"], nombre, gasto_total))
+                print("Legajo {} : {}, gasto $ {} en viaticos ".format(num_legajo, nombre, gasto_total))
 
+# A_ menu de acciones 
 
 def menu():
     while True:
@@ -103,9 +108,14 @@ def menu():
         elif opcion == "2":
             new_archivo1 = input("Ingese el nombre del archivo1 que guarda los datos de los empleados : ")
             new_archivo2 = input("Ingese el nombre del archivo2 que guarda los gastos de los empleados : ")
-            gastos(new_archivo1, new_archivo2)
+            #añadi esta condicional para que no tire error cuando no existe el archivo
+            if os.path.exists(new_archivo1) and os.path.exists(new_archivo2):
+                gastos(new_archivo1, new_archivo2)
+            else:
+                print ("Uno o ambos archivos no se encontraron")
 
         elif opcion == "3":
+            print ("Hasta pronto !")
             exit()
         else :
             print(" Opción invalida ! repita ")
