@@ -54,11 +54,11 @@ def cargar_datos(archivo,campos):
             return
     except IOError:
         print("ocurrio un error con el archivo! ")
-        
+
 
 def menu():
     while True:
-        print("Elija una opcion: \n 1. Cargar datos \n 3.Salir : ")
+        print("Elija una opcion: \n 1. Cargar datos \n 2. Controlar viaticos \n 3.Salir : ")
         opcion = input(" ")
         
         if opcion == "1":
@@ -67,7 +67,12 @@ def menu():
             new_campos = ['LEGAJO','APELLIDO', 'NOMBRE']
             cargar_datos(new_archivo,new_campos)
 
-        if opcion == "3":
+        elif opcion == "2":
+            new_archivo1 = input("Ingese el nombre del archivo1 que guarda los datos de los empleados : ")
+            new_archivo2 = input("Ingese el nombre del archivo2 que guarda los gastos de los empleados : ")
+            gastos(new_archivo1, new_archivo2)
+
+        elif opcion == "3":
             exit()
         else :
             print(" Opción invalida ! repita ")
