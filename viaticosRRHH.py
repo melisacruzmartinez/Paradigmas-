@@ -55,6 +55,39 @@ def cargar_datos(archivo,campos):
     except IOError:
         print("ocurrio un error con el archivo! ")
 
+def gastos(archivo1,archivo2):
+
+    num_legajo = input ("Ingresa el legajo que deseas averiguar: ")
+
+    with open (archivo1, 'r')  as file:
+        datos_csv = csv.DictReader(file)
+
+        nombre = "null"
+
+        for fila in datos_csv:
+            if (fila["LEGAJO"] == num_legajo):
+                nombre = fila["NOMBRE"]
+
+        if (nombre == "null"):
+            print("Legajo no encontrado")
+            return
+
+        with open (archivo2, 'r')  as f:
+            gastos_csv = csv.DictReader(f)
+
+            gasto_total = 0
+
+            for fila in gastos_csv:
+                if (fila["Legajo"] == num_legajo):
+                    gasto_total += int(fila["Gastos"])
+
+            if (gasto_total > 5000):
+                diferencia = gasto_total - 5000
+                print(f"Se paso de fatctura con {diferencia} pesos")
+
+            else:
+                print("Legajo {} : {}, gasto $ {}".format(fila["Legajo"], nombre, gasto_total))
+
 
 def menu():
     while True:
